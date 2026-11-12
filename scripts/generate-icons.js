@@ -76,3 +76,4 @@ if (!fs.existsSync(iconsDir)) {
 fs.writeFileSync(path.join(iconsDir, 'icon-192x192.png'), createPng(192, 192));
 fs.writeFileSync(path.join(iconsDir, 'icon-512x512.png'), createPng(512, 512));
 console.log('Generated DevTrack PWA PNG icons successfully.');
+

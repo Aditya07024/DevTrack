@@ -240,3 +240,4 @@ export const DEFAULT_SYSTEM_DESIGN_TOPICS = [
     resources: [{ title: "Refactoring Guru: Design Patterns", url: "https://refactoring.guru/design-patterns" }],
   },
 ];
+

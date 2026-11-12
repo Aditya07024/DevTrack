@@ -128,3 +128,4 @@ Can be triggered by Vercel Cron, GitHub Actions, or cron-job.org.
 2. Import repository into [Vercel](https://vercel.com).
 3. Set environment variables (`MONGODB_URI`, `AUTH_SECRET`, `NEXT_PUBLIC_VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, etc.).
 4. Deploy!
+
