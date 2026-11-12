@@ -19,15 +19,22 @@ import { BarChart3, TrendingUp, Flame, CheckCircle2, Clock } from "lucide-react"
 export default function AnalyticsPage() {
   const [data, setData] = useState<any>(null);
   const [sessions, setSessions] = useState<any[]>([]);
+  const [applications, setApplications] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    Promise.all([fetch("/api/dashboard"), fetch("/api/study-sessions")])
-      .then(async ([dashRes, sessRes]) => {
+    Promise.all([
+      fetch("/api/dashboard"),
+      fetch("/api/study-sessions"),
+      fetch("/api/applications"),
+    ])
+      .then(async ([dashRes, sessRes, appRes]) => {
         const dashData = await dashRes.json();
         const sessData = await sessRes.json();
+        const appData = await appRes.json();
         setData(dashData);
         setSessions(sessData.sessions || []);
+        setApplications(appData.applications || []);
       })
       .finally(() => setLoading(false));
   }, []);
@@ -52,25 +59,35 @@ export default function AnalyticsPage() {
     { name: "Viewed Sol", value: dsa.solutionViewed || 0, color: "#94A3B8" },
   ];
 
-  // 3. Past 7 days study hours
-  const pastDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  const studyHoursData = [
-    { day: "Mon", hours: 3.5 },
-    { day: "Tue", hours: 4.2 },
-    { day: "Wed", hours: 3.0 },
-    { day: "Thu", hours: 2.5 },
-    { day: "Fri", hours: 4.0 },
-    { day: "Sat", hours: 5.5 },
-    { day: "Sun", hours: 3.8 },
-  ];
+  // 3. Past 7 days study hours computed dynamically from logged study sessions
+  const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const studyHoursData = Array.from({ length: 7 }, (_, i) => {
+    const d = new Date();
+    d.setDate(d.getDate() - (6 - i));
+    const dateStr = d.toISOString().split("T")[0];
+    const dayLabel = dayNames[d.getDay()];
 
-  // 4. Job Funnel Data
+    const totalMinutes = sessions
+      .filter((s) => s.date === dateStr)
+      .reduce((acc, s) => acc + (s.durationMinutes || 0), 0);
+
+    return {
+      day: dayLabel,
+      hours: Math.round((totalMinutes / 60) * 10) / 10,
+    };
+  });
+
+  // 4. Job Funnel Data computed dynamically from active applications
   const funnelData = [
-    { stage: "Applied", count: 16, fill: "#4F46E5" },
-    { stage: "OA", count: 8, fill: "#6366F1" },
-    { stage: "Tech Round", count: 5, fill: "#818CF8" },
-    { stage: "HR / HM", count: 3, fill: "#A5B4FC" },
-    { stage: "Offer", count: 1, fill: "#16A34A" },
+    { stage: "Applied", count: applications.filter((a) => a.status === "APPLIED").length, fill: "#4F46E5" },
+    { stage: "OA", count: applications.filter((a) => a.status === "ASSESSMENT").length, fill: "#6366F1" },
+    {
+      stage: "Tech Round",
+      count: applications.filter((a) => ["TECHNICAL_ROUND", "INTERVIEW_SCHEDULED"].includes(a.status)).length,
+      fill: "#818CF8",
+    },
+    { stage: "HR / HM", count: applications.filter((a) => a.status === "HR_ROUND").length, fill: "#A5B4FC" },
+    { stage: "Offer", count: applications.filter((a) => a.status === "OFFER").length, fill: "#16A34A" },
   ];
 
   return (

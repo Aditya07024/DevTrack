@@ -20,8 +20,15 @@ export default function ReviewsPage() {
 
   const now = new Date();
   const currentYear = now.getFullYear();
-  // Get ISO week number
-  const weekNumber = 7;
+  
+  // Dynamically calculate current ISO week number
+  const weekNumber = (() => {
+    const d = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
+    const dayNum = d.getUTCDay() || 7;
+    d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+    const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+    return Math.ceil((((d.getTime() - yearStart.getTime()) / 86400000) + 1) / 7);
+  })();
 
   useEffect(() => {
     loadReviews();

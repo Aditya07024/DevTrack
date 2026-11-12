@@ -54,7 +54,7 @@ export async function POST(req: NextRequest) {
 
     response.cookies.set("devtrack_session", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: process.env.NODE_ENV === "production" && !process.env.NEXT_PUBLIC_APP_URL?.includes("localhost"),
       sameSite: "lax",
       maxAge: 30 * 24 * 60 * 60,
       path: "/",

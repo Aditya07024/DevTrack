@@ -16,7 +16,7 @@ export async function POST() {
 
     const response = NextResponse.json({
       success: true,
-      message: "Logged in as Alex Dev (Demo Account)",
+      message: `Logged in as ${demoUser.name} (${demoUser.email})`,
       user: {
         id: demoUser._id,
         name: demoUser.name,
@@ -27,7 +27,7 @@ export async function POST() {
 
     response.cookies.set("devtrack_session", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: process.env.NODE_ENV === "production" && !process.env.NEXT_PUBLIC_APP_URL?.includes("localhost"),
       sameSite: "lax",
       maxAge: 30 * 24 * 60 * 60,
       path: "/",
