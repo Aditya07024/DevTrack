@@ -158,3 +158,4 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Failed to load dashboard metrics" }, { status: 500 });
   }
 }
+

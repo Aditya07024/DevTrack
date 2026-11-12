@@ -66,3 +66,4 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Revision cron failed" }, { status: 500 });
   }
 }
+

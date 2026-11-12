@@ -74,3 +74,4 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
     return NextResponse.json({ error: "Failed to update revision" }, { status: 500 });
   }
 }
+
