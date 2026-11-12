@@ -219,3 +219,4 @@ export default function TopNav({ onMobileMenuToggle }: TopNavProps) {
     </header>
   );
 }
+

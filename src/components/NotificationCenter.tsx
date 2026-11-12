@@ -130,3 +130,4 @@ export default function NotificationCenter({ onClose, onCountChange }: Notificat
     </div>
   );
 }
+

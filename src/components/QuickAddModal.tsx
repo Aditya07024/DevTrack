@@ -380,3 +380,4 @@ export default function QuickAddModal({ onClose, onSuccess }: QuickAddModalProps
     </div>
   );
 }
+
