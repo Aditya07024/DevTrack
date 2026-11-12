@@ -107,17 +107,15 @@ export default function ResourcesPage() {
           <div className="flex bg-slate-200/70 p-1 rounded-lg gap-1 text-xs font-semibold">
             <button
               onClick={() => setTab("NOTES")}
-              className={`px-3 py-1.5 rounded-md transition-colors ${
-                tab === "NOTES" ? "bg-white text-indigo-600 shadow-sm" : "text-slate-600 hover:text-slate-900"
-              }`}
+              className={`px-3 py-1.5 rounded-md transition-colors ${tab === "NOTES" ? "bg-white text-indigo-600 shadow-sm" : "text-slate-600 hover:text-slate-900"
+                }`}
             >
               Notes ({notes.length})
             </button>
             <button
               onClick={() => setTab("RESOURCES")}
-              className={`px-3 py-1.5 rounded-md transition-colors ${
-                tab === "RESOURCES" ? "bg-white text-indigo-600 shadow-sm" : "text-slate-600 hover:text-slate-900"
-              }`}
+              className={`px-3 py-1.5 rounded-md transition-colors ${tab === "RESOURCES" ? "bg-white text-indigo-600 shadow-sm" : "text-slate-600 hover:text-slate-900"
+                }`}
             >
               Resources ({resources.length})
             </button>
